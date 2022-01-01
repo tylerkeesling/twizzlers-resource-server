@@ -6,7 +6,7 @@ var cors = require('cors');
 const httpStatus = require('http-status');
 const routes = require('./routes/v1');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 var app = express();
 app.use(cors());
