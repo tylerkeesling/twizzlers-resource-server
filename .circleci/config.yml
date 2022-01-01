@@ -1,0 +1,13 @@
+version: 2.1
+orbs:
+  heroku: circleci/heroku@1.2.6
+workflows:
+  build-and-deploy:
+    jobs:
+      - build
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          api-key: HEROKU_API_KEY
+          app-name: twizzlers-resource-server
+          branch: develop
