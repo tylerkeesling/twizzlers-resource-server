@@ -1,6 +1,8 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+
+var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
 const httpStatus = require('http-status');
@@ -30,7 +32,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
