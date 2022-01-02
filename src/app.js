@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
-// error handler
+// error handler ys
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
