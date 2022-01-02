@@ -11,7 +11,7 @@ const oktaJwtVerifier = new OktaJwtVerifier({
     cid: process.env.CLAIM_CID,
   },
   testing: {
-    disableHttpsCheck: true,
+    disableHttpsCheck: false,
   },
 });
 
