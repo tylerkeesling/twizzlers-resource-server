@@ -42,17 +42,38 @@ const auth =
     const accessToken = match[1];
     const audience = process.env.CLAIM_AUD;
 
-    // console.log(req.params);
+    // console.log('access', accessToken);
 
     return oktaJwtVerifier
       .verifyAccessToken(accessToken, audience)
       .then((jwt) => {
-        // console.log('jwt', jwt);
         req.jwt = jwt;
+        // const claims = jwt.claims;
+        // const userRights = [];
+
+        // console.log('roleRighgts', roleRights);
+
+        // roleRights.forEach((v, k) => {
+        //   // if (claims.includes(k)) {
+        //   //   userRights.push(...v);
+        //   // }
+        //   console.log(`key: ${k}, value: ${v}`);
+        // });
+
+        // console.log('claims', claims);
+        // console.log('user rights', userRights);
+
+        // const hasRequiredRights = requiredRights.every((requiredRight) =>
+        //   userRights.includes(requiredRight)
+        // );
+
         next();
       })
 
-      .catch((err) => next(err));
+      .catch((err) => {
+        console.log(err);
+        next(err);
+      });
   };
 
 module.exports = auth;

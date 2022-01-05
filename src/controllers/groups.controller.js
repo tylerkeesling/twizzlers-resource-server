@@ -5,8 +5,8 @@ const catchAsync = require('../utils/catchAsync');
 const okta = require('@okta/okta-sdk-nodejs');
 const { NO_CONTENT } = require('http-status');
 
-const USERS_GROUP_ID = '00g3gs22j5Yh1BrlP5d7';
-const ADMIN_GROUP_ID = '00g3grzlxtmFbkIzZ5d7';
+const USERS_GROUP_ID = '00g3hn3uujmZrkmvp5d7';
+const ADMIN_GROUP_ID = '00g3hn4hvbH53HiSE5d7';
 const BASE_URL = 'https://dev-76476905.okta.com/api/v1/groups';
 
 const headers = {
@@ -32,6 +32,7 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const getUsers = catchAsync(async (req, res) => {
+  console.log('req', req);
   const response = await client.http.http(`${BASE_URL}/${req.params.groupId}/users`, {
     method: 'get',
     headers,

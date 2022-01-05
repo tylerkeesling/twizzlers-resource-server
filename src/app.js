@@ -1,12 +1,12 @@
 var express = require('express');
 var path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
-
-var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const httpStatus = require('http-status');
 const routes = require('./routes/v1');
+const { errorConverter, errorHandler } = require('./middleware/error');
+const ApiError = require('./utils/ApiError');
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,21 +19,16 @@ app.use(cookieParser());
 
 app.use('/api/v1', routes);
 
-// catch 404 and forward to error handler
+// send back a 404 error for any unknown api request
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
-// error handler ys
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// convert error to ApiError, if needed
+app.use(errorConverter);
 
-  // render the error page
-  res.status(err.status || 500);
-  // res.render('error');
-});
+// handle error
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
