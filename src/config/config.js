@@ -1,5 +1,5 @@
 module.exports = {
-  env: process.env.NODE_ENV,
+  env: 'development',
   roles: {
     base: 'ROLE_BASE',
     editor: 'ROLE_EDITOR',
