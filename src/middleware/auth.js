@@ -3,6 +3,8 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { roleRights } = require('../config/roles');
 
+console.log('DISABLE_HTTPS_CHECK', process.env.DISABLE_HTTPS_CHECK);
+
 const oktaJwtVerifier = new OktaJwtVerifier({
   clientId: process.env.SPA_CLIENT_ID,
   issuer: process.env.ISSUER,
@@ -10,9 +12,9 @@ const oktaJwtVerifier = new OktaJwtVerifier({
     aud: process.env.CLAIM_AUD,
     cid: process.env.CLAIM_CID,
   },
-  testing: {
-    disableHttpsCheck: process.env.DISABLE_HTTPS_CHECK,
-  },
+  // testing: {
+  //   disableHttpsCheck: process.env.DISABLE_HTTPS_CHECK,
+  // },
 });
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
