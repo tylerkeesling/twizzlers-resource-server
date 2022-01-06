@@ -42,8 +42,6 @@ const auth =
     const accessToken = match[1];
     const audience = process.env.CLAIM_AUD;
 
-    // console.log('access', accessToken);
-
     return oktaJwtVerifier
       .verifyAccessToken(accessToken, audience)
       .then((jwt) => {
