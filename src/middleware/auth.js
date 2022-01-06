@@ -50,6 +50,8 @@ const auth =
       next(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
     }
 
+    console.log('audience', audience);
+
     return oktaJwtVerifier
       .verifyAccessToken(accessToken, audience)
       .then((jwt) => {
