@@ -4,13 +4,8 @@ const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(auth('manageUsers'), userController.getAllUsers)
-  .post(userController.createUser);
+router.route('/').get(auth('users:read'), userController.listUsers).post(userController.createUser);
 
-router.route('/admins').get(auth('manageUsers'), userController.getAdmins);
-
-router.route('/non-admins').get(auth('manageUsers'), userController.getNonAdmins);
+router.route('/:userId').put(auth('users:update'), userController.updateUser);
 
 module.exports = router;

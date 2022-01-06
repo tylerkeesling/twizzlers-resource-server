@@ -10,9 +10,9 @@ const oktaJwtVerifier = new OktaJwtVerifier({
     aud: process.env.CLAIM_AUD,
     cid: process.env.CLAIM_CID,
   },
-  testing: {
-    disableHttpsCheck: process.env.DISABLE_HTTPS_CHECK,
-  },
+  // testing: {
+  //   disableHttpsCheck: process.env.DISABLE_HTTPS_CHECK,
+  // },
 });
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
@@ -37,39 +37,36 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
 const auth =
   (...requiredRights) =>
   async (req, res, next) => {
-    const authHeader = req.headers.authorization || '';
-    const match = authHeader.match(/Bearer (.+)/);
-    const accessToken = match[1];
+    let authHeader, match, accessToken;
     const audience = process.env.CLAIM_AUD;
+
+    try {
+      authHeader = req.headers.authorization || '';
+      match = authHeader.match(/Bearer (.+)/);
+      accessToken = match[1];
+    } catch {
+      next(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
+    }
 
     return oktaJwtVerifier
       .verifyAccessToken(accessToken, audience)
       .then((jwt) => {
         req.jwt = jwt;
-        // const claims = jwt.claims;
-        // const userRights = [];
-
-        // console.log('roleRighgts', roleRights);
-
-        // roleRights.forEach((v, k) => {
-        //   // if (claims.includes(k)) {
-        //   //   userRights.push(...v);
-        //   // }
-        //   console.log(`key: ${k}, value: ${v}`);
-        // });
-
-        // console.log('claims', claims);
-        // console.log('user rights', userRights);
-
-        // const hasRequiredRights = requiredRights.every((requiredRight) =>
-        //   userRights.includes(requiredRight)
-        // );
+        const { roles } = jwt.claims;
+        if (requiredRights.length) {
+          const userRights = roleRights.get(roles);
+          const hasRequiredRights = requiredRights.every((requiredRight) =>
+            userRights.includes(requiredRight)
+          );
+          if (!hasRequiredRights) {
+            throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+          }
+        }
 
         next();
       })
 
       .catch((err) => {
-        console.log(err);
         next(err);
       });
   };
