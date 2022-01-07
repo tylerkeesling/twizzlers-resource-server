@@ -1,35 +1,33 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return Promise.all([
-      queryInterface.changeColumn(
-        'Posts',
-        'body',
-        {
-          type: Sequelize.TEXT,
-          allowNull: true,
-        },
-        {
-          transaction,
-        }
-      ),
-    ]);
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.sequelize.transaction((t) => {
+      return Promise.all([
+        queryInterface.changeColumn(
+          'Posts',
+          'body',
+          {
+            type: Sequelize.STRING,
+          },
+          { transaction: t }
+        ),
+      ]);
+    });
   },
 
-  down: async (queryInterface, Sequelize) => {
-    return Promise.all([
-      queryInterface.changeColumn(
-        'Posts',
-        'body',
-        {
-          type: Sequelize.STRING,
-          allowNull: true,
-        },
-        {
-          transaction,
-        }
-      ),
-    ]);
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.sequelize.transaction((t) => {
+      return Promise.all([
+        queryInterface.changeColumn(
+          'Posts',
+          'body',
+          {
+            type: Sequelize.STRING,
+          },
+          { transaction: t }
+        ),
+      ]);
+    });
   },
 };
