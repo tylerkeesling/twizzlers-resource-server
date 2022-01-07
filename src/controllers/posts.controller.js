@@ -11,9 +11,9 @@ const list = catchAsync(async (req, res) => {
 
 const create = catchAsync(async (req, res) => {
   const { title, description, body } = req.body;
-  const { uid: userId } = req.jwt.claims;
+  const { uid: userId, name: author } = req.jwt.claims;
 
-  // const post = await db.Posts.create({ userId, title, description, body });
+  const post = await db.Posts.create({ userId, author, title, description, body });
   res.status(httpStatus.CREATED).send();
 });
 
