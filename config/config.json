@@ -7,10 +7,8 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": "password",
-    "database": "blog_production",
-    "host": "127.0.0.1",
+    "host": "localhost",
+    "port": 5432,
     "dialect": "postgres",
     "use_env_variable": "DATABASE_URL"
   }
