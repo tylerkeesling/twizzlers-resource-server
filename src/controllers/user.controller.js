@@ -3,7 +3,7 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const okta = require('@okta/okta-sdk-nodejs');
-const roles = require('../config/config').roles;
+const { roles } = require('../config/roles');
 
 const USERS_GROUP_ID = '00g3hn3uujmZrkmvp5d7';
 const ADMIN_GROUP_ID = '00g3hn4hvbH53HiSE5d7';
@@ -27,7 +27,7 @@ const createUser = catchAsync(async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       login: req.body.email,
-      role: roles.base,
+      role: roles.find((role) => role.includes('BASE')),
     },
     credentials: {
       password: { value: req.body.password },
@@ -68,8 +68,22 @@ const updateUser = catchAsync(async (req, res) => {
   res.send(updatedUser);
 });
 
+const listFactorsToEnroll = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+
+  const response = await client.http.http(`${BASE_API}/users/${userId}/factors/catalog`, {
+    method: 'get',
+    headers,
+  });
+
+  const json = await response.json();
+
+  res.status(response.status).send(json);
+});
+
 module.exports = {
   listUsers,
   createUser,
   updateUser,
+  listFactorsToEnroll,
 };

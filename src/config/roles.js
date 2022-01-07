@@ -1,7 +1,7 @@
 const allRoles = {
-  ROLE_BASE: ['blog:read'],
-  ROLE_EDITOR: ['blog:read', 'blog:write'],
-  ROLE_ADMIN: ['blog:read', 'blog:write', 'users:read', 'users:write', 'users:update'],
+  ROLE_BASE: ['posts:read'],
+  ROLE_EDITOR: ['posts:read', 'posts:write'],
+  ROLE_ADMIN: ['posts:read', 'posts:write', 'users:read', 'users:write', 'users:update'],
 };
 
 const roles = Object.keys(allRoles);

@@ -10,12 +10,10 @@ const oktaJwtVerifier = new OktaJwtVerifier({
     aud: process.env.CLAIM_AUD,
     cid: process.env.CLAIM_CID,
   },
-  // testing: {
-  //   disableHttpsCheck: process.env.DISABLE_HTTPS_CHECK,
-  // },
+  testing: {
+    disableHttpsCheck: process.env.DISABLE_HTTPS_CHECK,
+  },
 });
-
-console.log('DISABLE_HTTPS_CHECK', process.env.DISABLE_HTTPS_CHECK);
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {

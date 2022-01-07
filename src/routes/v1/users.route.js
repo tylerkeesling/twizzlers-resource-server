@@ -8,4 +8,6 @@ router.route('/').get(auth('users:read'), userController.listUsers).post(userCon
 
 router.route('/:userId').put(auth('users:update'), userController.updateUser);
 
+router.route('/:userId/factors/catalog').get(userController.listFactorsToEnroll);
+
 module.exports = router;

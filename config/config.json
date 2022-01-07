@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "root",
+    "password": "password",
+    "database": "blog_dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "root",
+    "password": "password",
+    "database": "blog_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

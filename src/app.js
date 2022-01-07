@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+const db = require('../models/index.js');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
