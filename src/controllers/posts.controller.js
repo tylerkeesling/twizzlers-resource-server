@@ -5,7 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const db = require('../../models/index');
 
 const list = catchAsync(async (req, res) => {
-  const posts = await db.Posts.findAll();
+  const posts = await db.Posts.findAll({ order: [['createdAt', 'DESC']] });
   res.status(httpStatus.OK).send(posts);
 });
 
